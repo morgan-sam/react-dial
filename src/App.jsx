@@ -70,12 +70,14 @@ const Dial = () => {
         <div className="dial-center"></div>
         <div className="levels">
           {[...Array(11).keys()].map((i) => (
-            <span className="level">{i + 1}</span>
+            <span className="level" key={i}>
+              {i + 1}
+            </span>
           ))}
         </div>
         <div className="markings">
           {[...Array(120).keys()].map((i) => (
-            <span className="marking"></span>
+            <span className="marking" key={i}></span>
           ))}
         </div>
       </div>

@@ -23,6 +23,7 @@ const Dial = () => {
     });
 
     document.addEventListener("mousemove", (e) => {
+      e.preventDefault();
       if (isDragging) {
         const deltaY = e.movementY;
         const currentRotation = getRotation(needle);

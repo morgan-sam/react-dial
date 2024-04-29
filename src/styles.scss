@@ -1,0 +1,141 @@
+:root {
+  --dial-size: 80px;
+  --level-size: 12px;
+  --needle-width: 1px;
+  --body-width-height: calc(var(--dial-size) - var(--level-size) * 2.5);
+  --center-width-height: calc(
+    calc(var(--dial-size) - var(--level-size) * 2.5) / 5
+  );
+  --needle-height: calc(var(--dial-size) / 2);
+}
+
+// do not use borders, it offsets center point or the needle from the true center
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.channel-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1rem;
+}
+
+.dial {
+  position: relative;
+  width: var(--dial-size);
+  height: var(--dial-size);
+  border: 2px solid black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.levels {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.level {
+  user-select: none;
+  position: absolute;
+  width: var(--level-size);
+  height: var(--level-size);
+  font-size: var(--level-size);
+  text-align: center;
+  letter-spacing: -2px;
+  pointer-events: none;
+}
+@for $i from 1 through 12 {
+  $angle: calc(calc(360deg / 12) * calc($i + 6));
+  $radius: calc(var(--dial-size) - var(--level-size) * 1) / 2;
+
+  .level:nth-of-type(#{$i}) {
+    left: calc(50% + #{$radius} * cos(#{$angle}) - var(--level-size) / 2);
+    top: calc(50% + #{$radius} * sin(#{$angle}) - var(--level-size) / 2);
+    transform: rotate(calc(#{$angle} + 90deg));
+  }
+}
+
+.markings {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.marking {
+  user-select: none;
+  position: absolute;
+  width: var(--marking-size);
+  height: var(--marking-size);
+  font-size: var(--marking-size);
+  text-align: center;
+  pointer-events: none;
+}
+@for $i from 1 through 12 {
+  $angle: calc(calc(360deg / 12) * calc($i + 6));
+  $radius: calc(var(--dial-size) - var(--marking-size) * 1) / 2;
+
+  .marking:nth-of-type(#{$i}) {
+    left: calc(50% + #{$radius} * cos(#{$angle}) - var(--marking-size) / 2);
+    top: calc(50% + #{$radius} * sin(#{$angle}) - var(--marking-size) / 2);
+    transform: rotate(calc(#{$angle} + 90deg));
+  }
+}
+
+.needle {
+  position: absolute;
+  width: var(--needle-width);
+  height: var(--needle-height);
+  box-shadow: 0 0 0 1px black;
+  border-radius: 50% 50% 0 0;
+  top: calc(calc(50% - var(--needle-width) / 2) - var(--needle-height));
+  left: calc(calc(50% - var(--needle-width) / 2));
+  transform-origin: 50% 100%;
+  transform: rotate(calc(180deg + 30deg));
+  z-index: 101;
+  background: white;
+  pointer-events: none;
+}
+
+.dial-body,
+.dial-center {
+  position: absolute;
+  pointer-events: none;
+  box-shadow: 0 0 0 1px black;
+  background: white;
+  border-radius: 50%;
+}
+
+.dial-body {
+  width: var(--body-width-height);
+  height: var(--body-width-height);
+  top: calc(50% - var(--body-width-height) / 2);
+  left: calc(50% - var(--body-width-height) / 2);
+  z-index: 100;
+}
+
+.dial-center {
+  width: var(--center-width-height);
+  height: var(--center-width-height);
+  top: calc(50% - var(--center-width-height) / 2);
+  left: calc(50% - var(--center-width-height) / 2);
+  z-index: 101;
+}

@@ -7,10 +7,11 @@ const Dial = () => {
 
   useEffect(() => {
     const OFFSET_DEGREES = 180;
-    const needle = dial.current.querySelector(".needle");
+    const dial_element = dial.current;
+    const needle = dial_element.current.querySelector(".needle");
     let isDragging = false;
 
-    dial.current.addEventListener("mousedown", (e) => {
+    dial_element.current.addEventListener("mousedown", (e) => {
       e.preventDefault();
       isDragging = true;
       document.body.requestPointerLock();
@@ -28,7 +29,9 @@ const Dial = () => {
         const rotation = currentRotation - deltaY;
         setRotation(needle, rotation);
         const channel =
-          (getRotation(dial.querySelector(".needle")) - OFFSET_DEGREES) / 30;
+          (getRotation(dial_element.querySelector(".needle")) -
+            OFFSET_DEGREES) /
+          30;
         setChannel(channel);
       }
     });

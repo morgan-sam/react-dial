@@ -8,10 +8,10 @@ const Dial = () => {
   useEffect(() => {
     const OFFSET_DEGREES = 180;
     const dial_element = dial.current;
-    const needle = dial_element.current.querySelector(".needle");
+    const needle = dial_element.querySelector(".needle");
     let isDragging = false;
 
-    dial_element.current.addEventListener("mousedown", (e) => {
+    dial_element.addEventListener("mousedown", (e) => {
       e.preventDefault();
       isDragging = true;
       document.body.requestPointerLock();
@@ -61,21 +61,21 @@ const Dial = () => {
 
   return (
     <>
-      <h1 class="channel-title" key={channel}>
+      <h1 className="channel-title" key={channel}>
         Channel: {channel.toFixed(2)}
       </h1>
-      <div class="dial" ref={dial}>
-        <div class="needle"></div>
-        <div class="dial-body"></div>
-        <div class="dial-center"></div>
-        <div class="levels">
+      <div className="dial" ref={dial}>
+        <div className="needle"></div>
+        <div className="dial-body"></div>
+        <div className="dial-center"></div>
+        <div className="levels">
           {[...Array(11).keys()].map((i) => (
-            <span class="level">{i + 1}</span>
+            <span className="level">{i + 1}</span>
           ))}
         </div>
-        <div class="markings">
+        <div className="markings">
           {[...Array(120).keys()].map((i) => (
-            <span class="marking"></span>
+            <span className="marking"></span>
           ))}
         </div>
       </div>

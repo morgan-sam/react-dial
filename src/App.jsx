@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./styles.scss"; // Import your SCSS file
 
-const Dial = () => {
+const Dial = ({ onChange }) => {
   const dial = useRef(null);
+  const NUMBER_OF_CHANNELS = 11;
+  const [rotation, setRotation] = useState(210);
   const [channel, setChannel] = useState(1);
 
   useEffect(() => {
@@ -27,12 +29,12 @@ const Dial = () => {
       if (isDragging) {
         const deltaY = e.movementY;
         const currentRotation = getRotation(needle);
-        const rotation = currentRotation - deltaY;
-        setRotation(needle, rotation);
-        const channel =
-          (getRotation(dial_element.querySelector(".needle")) -
-            OFFSET_DEGREES) /
-          30;
+        const new_rotation = Math.min(
+          Math.max(currentRotation - deltaY, 30 + OFFSET_DEGREES),
+          330 + OFFSET_DEGREES
+        );
+        setRotation(new_rotation);
+        const channel = (new_rotation - OFFSET_DEGREES) / 30;
         setChannel(channel);
       }
     });
@@ -50,14 +52,6 @@ const Dial = () => {
       }
       return 0;
     }
-
-    function setRotation(element, degrees) {
-      const rotation = Math.min(
-        Math.max(degrees, 30 + OFFSET_DEGREES),
-        330 + OFFSET_DEGREES
-      );
-      element.style.transform = `rotate(${rotation}deg)`;
-    }
   }, []);
 
   return (
@@ -66,19 +60,26 @@ const Dial = () => {
         Channel: {channel.toFixed(2)}
       </h1>
       <div className="dial" ref={dial}>
-        <div className="needle"></div>
-        <div className="dial-body"></div>
+        <div
+          className="needle"
+          style={{ transform: `rotate(${rotation}deg` }}
+        ></div>
+        <div className="dial-body">
+          <div
+            className="markings"
+            style={{ transform: `rotate(${rotation}deg` }}
+          >
+            {[...Array(120).keys()].map((i) => (
+              <span className="marking" key={i}></span>
+            ))}
+          </div>
+        </div>
         <div className="dial-center"></div>
         <div className="levels">
-          {[...Array(11).keys()].map((i) => (
+          {[...Array(NUMBER_OF_CHANNELS).keys()].map((i) => (
             <span className="level" key={i}>
               {i + 1}
             </span>
-          ))}
-        </div>
-        <div className="markings">
-          {[...Array(120).keys()].map((i) => (
-            <span className="marking" key={i}></span>
           ))}
         </div>
       </div>

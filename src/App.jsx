@@ -4,7 +4,7 @@ import "./styles.scss"; // Import your SCSS file
 const Dial = ({ onChange }) => {
   const dial = useRef(null);
   const NUMBER_OF_CHANNELS = 11;
-  const [rotation, setRotation] = useState(210);
+  const [rotation, setRotation] = useState(180 + 30);
   const [channel, setChannel] = useState(1);
 
   useEffect(() => {
@@ -39,6 +39,7 @@ const Dial = ({ onChange }) => {
       }
     });
 
+    // replace with reactive state
     function getRotation(element) {
       const transform = window
         .getComputedStyle(element)

@@ -70,7 +70,7 @@ const Dial = ({ onChange }) => {
             className="markings"
             style={{ transform: `rotate(${rotation}deg` }}
           >
-            {[...Array(120).keys()].map((i) => (
+            {[...Array(60).keys()].map((i) => (
               <span className="marking" key={i}></span>
             ))}
           </div>

@@ -58,7 +58,7 @@ const Dial = ({ onChange }) => {
   return (
     <>
       <h1 className="channel-title" key={channel}>
-        Channel: {channel.toFixed(2)}
+        {`${channel < 10 ? "0" : ""}` + channel.toFixed(2)}
       </h1>
       <div className="dial" ref={dial}>
         <div

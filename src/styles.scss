@@ -67,7 +67,10 @@ body {
 
 $number_of_channels: 11;
 @for $i from 1 through $number_of_channels {
-  $angle: calc(calc(360deg / calc($number_of_channels + 1)) * calc($i + 6));
+  $angle: calc(
+    calc(360deg / calc($number_of_channels + 1)) *
+      calc($i + calc(calc($number_of_channels + 1) / 2))
+  );
   $radius: calc(var(--dial-size) - var(--level-size) * 1) / 2;
 
   .level:nth-of-type(#{$i}) {

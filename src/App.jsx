@@ -5,12 +5,13 @@ const Dial = ({ onChange }) => {
   const dial = useRef(null);
   const NUMBER_OF_CHANNELS = 11;
   const [rotation, setRotation] = useState(180 + 30);
+  const prevRotationRef = useRef(rotation);
+
   const [channel, setChannel] = useState(1);
 
   useEffect(() => {
     const OFFSET_DEGREES = 180;
     const dial_element = dial.current;
-    const needle = dial_element.querySelector(".needle");
     let isDragging = false;
 
     dial_element.addEventListener("mousedown", (e) => {
@@ -28,9 +29,10 @@ const Dial = ({ onChange }) => {
       e.preventDefault();
       if (isDragging) {
         const deltaY = e.movementY;
-        const currentRotation = getRotation(needle);
+        const previousRotation = prevRotationRef.current;
+
         const new_rotation = Math.min(
-          Math.max(currentRotation - deltaY, 30 + OFFSET_DEGREES),
+          Math.max(previousRotation - deltaY, 30 + OFFSET_DEGREES),
           330 + OFFSET_DEGREES
         );
         setRotation(new_rotation);
@@ -38,22 +40,12 @@ const Dial = ({ onChange }) => {
         setChannel(channel);
       }
     });
-
-    // replace with reactive state
-    function getRotation(element) {
-      const transform = window
-        .getComputedStyle(element)
-        .getPropertyValue("transform");
-      if (transform && transform !== "none") {
-        const values = transform.split("(")[1].split(")")[0].split(",");
-        const angle = Math.round(
-          Math.atan2(values[1], values[0]) * (180 / Math.PI)
-        );
-        return 360 + angle;
-      }
-      return 0;
-    }
   }, []);
+
+  useEffect(() => {
+    // Update the previous rotation value after rotation has been updated
+    prevRotationRef.current = rotation;
+  }, [rotation]);
 
   return (
     <>
